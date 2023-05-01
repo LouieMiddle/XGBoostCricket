@@ -33,7 +33,8 @@ class AttrSelector(BaseEstimator, TransformerMixin):
     def __init__(self, attributes):
         self.attributes = attributes
 
-    def fit(self):
+    # Needs attribute parameter from sklearn base class
+    def fit(self, attributes):
         return self
 
     def transform(self, X):
@@ -99,7 +100,8 @@ mipl_csv = mipl_csv[mipl_csv['bowlingStyle'].isin(seam)]
 mipl_csv = mipl_csv[mipl_csv['rightArmedBowl'] == True]
 
 categorical_attributes = []
-numerical_attributes = ['stumpsX', 'stumpsY', 'pitchX', 'pitchY']
+numerical_attributes = ['stumpsX', 'stumpsY']
+# numerical_attributes = ['stumpsX', 'stumpsY', 'pitchX', 'pitchY']
 all_columns = numerical_attributes + ['runs']
 
 mipl_csv = mipl_csv[all_columns]
@@ -131,7 +133,6 @@ all_features_transformed = list(numerical_attributes) + list(categorical_feature
 
 classifiers = {
     'xgboost': (XGBClassifier(), [{"max_depth": np.arange(1, 15),
-                                   "num_leaves": np.arange(0, 200),
                                    "eta": uniform(0, 1)}])
 }
 
