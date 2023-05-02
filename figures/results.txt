@@ -1,0 +1,6 @@
+Best hyperparameters {'eta': 0.022281312530883342, 'max_depth': 4, 'num_leaves': 18}
+Best cross validation score -0.5726012819804369
+training set results: 0.44142204154743236
+validation set results: 0.6052598017320204
+test set results: 0.581089657332216
+Accuracy: 71.43%
