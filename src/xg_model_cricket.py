@@ -13,7 +13,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from xgboost import XGBClassifier
 
-from src.dataset_utils import load_cricket_jos_buttler
+from src.dataset_utils import load_john_doe
 
 
 class AttrSelector(BaseEstimator, TransformerMixin):
@@ -78,7 +78,7 @@ def hyperparameter_opt(classifier, hyperparameter_dist, y_train, scoring="f1", n
     return pd.DataFrame(random_search.cv_results_), random_search.best_estimator_
 
 
-features, targets, categorical_attributes, numerical_attributes = load_cricket_jos_buttler()
+features, targets, categorical_attributes, numerical_attributes = load_john_doe()
 
 name = 'JosButtler_RightArmSeam_'
 
@@ -102,8 +102,9 @@ categorical_features_transformed = preprocessor.transformers[1][1]['one_hot_enco
 all_features_transformed = list(numerical_attributes) + list(categorical_features_transformed)
 
 classifiers = {
-    'xgboost': (XGBClassifier(), [{"max_depth": np.arange(1, 15),
-                                   "eta": uniform(0, 1)}])
+    'xgboost': (XGBClassifier(), [{"max_depth": np.arange(3, 15),
+                                   "num_leaves": np.arange(0, 100),
+                                   "eta": uniform(0, 0.05)}])
 }
 
 # store results of hyperparameter search for each model
@@ -176,6 +177,7 @@ for classifier_name, classifier_obj in cv_results.items():
 
     classifier.save_model('../models/' + name + "_".join(numerical_attributes) + '.json')
     # xgboost.plot_importance(classifier)
+    xgboost.plot_tree(classifier, num_trees=5, rankdir='LR')
     plt.show()
 
 xgb = cv_results["xgboost"][1]

@@ -1,12 +1,7 @@
 import xgboost as xgb
 
-from matplotlib import pyplot as plt
-
 model = xgb.Booster()
 
-model.load_model("../models/JosButtler_RightArmSeam_stumpsX_stumpsY.json")
+model.load_model("../models/ENTER-MODEl-NAME.json")
 
-# model.feature_names = ['pitchY', 'stumpsX', 'stumpsY', 'pitchX']
-
-xgb.plot_tree(model)
-plt.show()
+# Can then do any addition testing on models here
