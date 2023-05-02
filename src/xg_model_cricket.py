@@ -1,5 +1,3 @@
-import os.path
-
 import numpy as np
 import pandas as pd
 import shap
@@ -15,18 +13,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from xgboost import XGBClassifier
 
-
-def filter_by_pitch_x_pitch_y(data):
-    data = data[(data['pitchX'] >= -2) & (data['pitchX'] <= 2)]
-    data = data[(data['pitchY'] >= 0) & (data['pitchY'] <= 14)]
-    return data
-
-
-def load_csv_data_mipl():
-    csv_path = os.path.join("./", "mensIPLHawkeyeStats.csv")
-    df = pd.read_csv(csv_path)
-    df['pitchX'] = -df['pitchX']
-    return df
+from src.dataset_utils import load_cricket_jos_buttler
 
 
 class AttrSelector(BaseEstimator, TransformerMixin):
@@ -91,24 +78,7 @@ def hyperparameter_opt(classifier, hyperparameter_dist, y_train, scoring="f1", n
     return pd.DataFrame(random_search.cv_results_), random_search.best_estimator_
 
 
-mipl_csv = load_csv_data_mipl()
-mipl_csv = filter_by_pitch_x_pitch_y(mipl_csv)
-
-seam = ['FAST_SEAM', 'MEDIUM_SEAM', 'SEAM']
-mipl_csv = mipl_csv[mipl_csv['batter'] == 'Jos Buttler']
-mipl_csv = mipl_csv[mipl_csv['bowlingStyle'].isin(seam)]
-mipl_csv = mipl_csv[mipl_csv['rightArmedBowl'] == True]
-
-categorical_attributes = []
-numerical_attributes = ['stumpsX', 'stumpsY']
-# numerical_attributes = ['stumpsX', 'stumpsY', 'pitchX', 'pitchY']
-all_columns = numerical_attributes + ['runs']
-
-mipl_csv = mipl_csv[all_columns]
-mipl_csv = mipl_csv[(mipl_csv['runs'] == 0) | (mipl_csv['runs'] == 6)]
-
-features = mipl_csv.drop(['runs'], axis=1)
-targets = mipl_csv['runs']
+features, targets, categorical_attributes, numerical_attributes = load_cricket_jos_buttler()
 
 name = 'JosButtler_RightArmSeam_'
 
@@ -205,7 +175,7 @@ for classifier_name, classifier_obj in cv_results.items():
     print("")
 
     classifier.save_model('../models/' + name + "_".join(numerical_attributes) + '.json')
-    xgboost.plot_importance(classifier)
+    # xgboost.plot_importance(classifier)
     plt.show()
 
 xgb = cv_results["xgboost"][1]
