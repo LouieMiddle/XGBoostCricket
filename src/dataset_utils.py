@@ -28,8 +28,8 @@ def load_john_doe():
     john_doe = john_doe[john_doe['rightArmedBowl'] == True]
 
     categorical_attributes = []
-    # numerical_attributes = ['stumpsX', 'stumpsY']
-    numerical_attributes = ['stumpsX', 'stumpsY', 'pitchX', 'pitchY']
+    numerical_attributes = ['stumpsX', 'stumpsY']
+    # numerical_attributes = ['stumpsX', 'stumpsY', 'pitchX', 'pitchY']
     all_columns = numerical_attributes + ['boundary']
 
     john_doe = john_doe[all_columns]
