@@ -2,7 +2,7 @@
 
 Based on an original implementation by https://github.com/RobBlumberg/xg_model
 
-This is created by Louie Middle (lm2166) for a final year project.
+This was updated by Louie Middle (lm2166) for a final year project.
 
 ## Setup 
 
