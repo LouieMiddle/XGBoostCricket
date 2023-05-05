@@ -1,13 +1,12 @@
-# Expected Goals Model
+# XGBoostCricket
 
-## Original README
+Based on an original implementation by https://github.com/RobBlumberg/xg_model
 
-This repository contains an Expected goals (xG) model. Many classification methods are tested to see which one yields the best results, including XGBoost, LightGBM, random forest and logistic regression. The data used to train the model is from Barcelona matches spanning 2004/05 to 2015/16. The data is obtained from Statsbomb's [open data](https://github.com/statsbomb/open-data).
+This is created by Louie Middle (lm2166) for a final year project.
 
-Note that this project is a work in progress.
+## Setup 
 
-The model itself is run in the jupyter notebook, xg_model.ipynb, in the src directory.
+The following code was run on python 3.10.
+A conda environment file `environment.yml` has been provided.
 
-## New README
-
-This forked repository will be updated to predict runs from cricket data
+Run `conda env create -f environment.yml` to replicate the same environment to run the code.
